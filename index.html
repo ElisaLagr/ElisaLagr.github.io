@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faire part Michel et Elisa</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts">
+        <i class="fas fa-heart"></i>
+        <i class="fas fa-heart"></i>
+        <i class="fas fa-heart"></i>
+        <i class="fas fa-heart"></i>
+        <i class="fas fa-heart"></i>
+    </div>
+
+    <!-- Header Section -->
+    <header class="hero-section">
+        <div class="hero-logo">
+            <img src="assets/media/logo.png" alt="Logo mariage" class="logo-image">
+        </div>
+        <div class="hero-background">
+            <img src="assets/media/image1.png" alt="Michel & Elisa" class="hero-image">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <div class="names fade-in">Michel & Elisa</div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Wedding Invitation Section -->
+        <section class="invitation-section section-padding">
+            <div class="container">
+                <div class="invitation-content">
+                    <div class="invitation-text">
+                        <h2>Vous invitent à célébrer notre mariage</h2>
+                    </div>
+                    <div class="date-showcase">
+                        <div class="date-large">14</div>
+                        <div class="date-details">
+                            <div class="month">Août</div>
+                            <div class="year">2026</div>
+                            <div class="day">Vendredi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Countdown Section -->
+        <section class="countdown-section section-padding">
+            <div class="container">
+                <h2 class="section-title">Jusqu'à notre grand jour</h2>
+                <div class="countdown-timer" id="countdown">
+                    <div class="time-unit">
+                        <span class="number" id="days">000</span>
+                        <span class="label">Jours</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="number" id="hours">00</span>
+                        <span class="label">Heures</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="number" id="minutes">00</span>
+                        <span class="label">Minutes</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="number" id="seconds">00</span>
+                        <span class="label">Secondes</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ceremony & Reception Section -->
+        <section class="ceremony-section section-padding">
+            <div class="container">
+                <h2 class="section-title">Cérémonie & Réception</h2>
+                <div class="ceremony-layout">
+                    <div class="ceremony-details">
+                        <div class="ceremony-item ceremony-church">
+                            <div class="ceremony-content">
+                                <div class="icon-container">
+                                    <i class="fas fa-church"></i>
+                                </div>
+                                <h3>Cérémonie</h3>
+                                <p><strong>19h00</strong></p>
+                                <p><strong>Église de Benajarafe</strong></p>
+                                <p class="address-text">Calle Campo de la Iglesia, 21<br>29790 Benajarafe, Málaga, Espagne</p>
+                                <a href="https://maps.google.com/?q=Calle Campo de la Iglesia, 21, 29790 Benajarafe, Málaga, Spain" target="_blank" class="location-link">
+                                    <i class="fas fa-map-marker-alt"></i> Voir sur la carte
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ceremony-item ceremony-reception">
+                            <div class="ceremony-content">
+                                <div class="icon-container">
+                                    <i class="fas fa-glass-cheers"></i>
+                                </div>
+                                <h3>Réception</h3>
+                                <p>La fête continue au</p>
+                                <p><strong>B Bou La Viñuela & Spa</strong></p>
+                                <p class="address-text">Carretera Vélez-Málaga – Alhama<br>29712 Viñuela, Málaga, Espagne</p>
+                                <a href="https://maps.google.com/?q=B Bou La Viñuela & Spa, Carretera Vélez-Málaga – Alhama, 29712 Viñuela, Málaga" target="_blank" class="location-link">
+                                    <i class="fas fa-map-marker-alt"></i> Voir sur la carte
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ceremony-image-container">
+                        <img src="assets/media/image3.png" alt="Lieux de cérémonie et réception" class="ceremony-main-image">
+                        <div class="image-overlay"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP Section -->
+        <section class="rsvp-section section-padding">
+            <div class="container">
+                <h2 class="section-title">Serez-vous des nôtres ?</h2>
+                <p class="rsvp-subtitle">Merci de confirmer votre présence avant le <strong>1er avril 2026</strong></p>
+                
+                <form class="rsvp-form" id="rsvpForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="guestName">Votre nom</label>
+                            <input type="text" id="guestName" name="guestName" required placeholder="Entrez votre nom complet">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="guestEmail">Email</label>
+                            <input type="email" id="guestEmail" name="guestEmail" required placeholder="votre.email@exemple.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="attendance">Serez-vous présent(e) ?</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="attendance" value="yes" required>
+                                <span class="radio-custom"></span>
+                                Oui, avec grand plaisir ! 🎉
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="attendance" value="no" required>
+                                <span class="radio-custom"></span>
+                                Malheureusement, je ne pourrai pas être là 😔
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row" id="guestCountGroup" style="display: none;">
+                        <div class="form-group">
+                            <label for="guestCount">Nombre d'invités (vous inclus)</label>
+                            <select id="guestCount" name="guestCount">
+                                <option value="1">1 personne</option>
+                                <option value="2">2 personnes</option>
+                                <option value="3">3 personnes</option>
+                                <option value="4">4 personnes</option>
+                                <option value="5">5+ personnes</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" id="songGroup">
+                            <label for="songRequest">Quelle chanson vous ferait danser ? 💃🕺</label>
+                            <input type="text" id="songRequest" name="songRequest" placeholder="Votre chanson préférée pour danser...">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="dietaryGroup" style="display: none;">
+                        <label for="dietary">Allergies ou régimes alimentaires particuliers ?</label>
+                        <textarea id="dietary" name="dietary" placeholder="Faites-nous savoir si vous avez des allergies ou des préférences alimentaires..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Un petit mot pour nous</label>
+                        <textarea id="message" name="message" placeholder="Partagez vos souhaits, vos souvenirs ou votre joie avec nous..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-heart"></i>
+                        Envoyer notre réponse
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Accommodation Section -->
+        <section class="accommodation-section section-padding">
+            <div class="container">
+                <h2 class="section-title">Où dormir</h2>
+                <p class="section-subtitle">Pour vos nuits près de nous, nous vous suggérons ces charmants villages :</p>
+                
+                <div class="accommodation-grid">
+                    <div class="accommodation-item">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Torre del Mar</h3>
+                        <p class="postal-code">29740</p>
+                        <p>Ville côtière avec de belles plages et restaurants</p>
+                        <a href="https://maps.google.com/?q=Torre del Mar, 29740, Málaga, Spain" target="_blank" class="location-link">
+                            <i class="fas fa-map-marker-alt"></i> Voir sur la carte
+                        </a>
+                    </div>
+                    
+                    <div class="accommodation-item">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Benajarafe</h3>
+                        <p class="postal-code">29790</p>
+                        <p>Charmant village où aura lieu notre cérémonie</p>
+                        <a href="https://maps.google.com/?q=Benajarafe, 29790, Málaga, Spain" target="_blank" class="location-link">
+                            <i class="fas fa-map-marker-alt"></i> Voir sur la carte
+                        </a>
+                    </div>
+                    
+                    <div class="accommodation-item">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Chilches</h3>
+                        <p class="postal-code">29790</p>
+                        <p>Village paisible au charme andalou authentique</p>
+                        <a href="https://maps.google.com/?q=Chilches, 29790, Málaga, Spain" target="_blank" class="location-link">
+                            <i class="fas fa-map-marker-alt"></i> Voir sur la carte
+                        </a>
+                    </div>
+                    
+                    <div class="accommodation-item">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Almayate</h3>
+                        <p class="postal-code">29749</p>
+                        <p>Lieu en bord de mer avec vues magnifiques sur la Méditerranée</p>
+                        <a href="https://maps.google.com/?q=Almayate, 29749, Málaga, Spain" target="_blank" class="location-link">
+                            <i class="fas fa-map-marker-alt"></i> Voir sur la carte
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section section-padding">
+            <div class="section-background">
+                <img src="assets/media/image2.png" alt="Contact Michel & Elisa" class="section-bg-image">
+                <div class="section-overlay"></div>
+            </div>
+            <div class="container">
+                <h2 class="section-title">Nous Contacter</h2>
+                <p class="section-subtitle">Des questions ? Nous serions ravis de vous entendre !</p>
+                
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-male"></i>
+                        </div>
+                        <h3>Michel</h3>
+                        <a href="tel:+33618797618" class="phone-link">
+                            <i class="fas fa-phone"></i>
+                            06 18 79 76 18
+                        </a>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <h3>Elisa</h3>
+                        <a href="tel:+33637257661" class="phone-link">
+                            <i class="fas fa-phone"></i>
+                            06 37 25 76 61
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="footer-content">
+                <div class="heart-divider">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <p class="footer-text">Nous avons hâte de partager ce moment avec vous !</p>
+                <p class="footer-signature">Michel & Elisa</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
