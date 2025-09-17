@@ -187,11 +187,13 @@
                         <textarea id="message" name="message" placeholder="Partagez vos souhaits, vos souvenirs ou votre joie avec nous..."></textarea>
                     </div>
                     
-                    <button type="submit" class="submit-btn">
+                    <button type="submit" class="submit-btn" id="submitBtn">
                         <i class="fas fa-heart"></i>
-                        Envoyer notre réponse
+                        <span id="submitText">Envoyer notre réponse</span>
                     </button>
                 </form>
+                
+                <div id="responseMessage" class="response-message" style="display: none;"></div>
             </div>
         </section>
 
@@ -199,7 +201,7 @@
         <section class="accommodation-section section-padding">
             <div class="container">
                 <h2 class="section-title">Où dormir</h2>
-                <p class="section-subtitle">Pour vos nuits près de nous, nous vous suggérons ces villages :</p>
+                <p class="section-subtitle">Pour vos nuits près de nous, nous vous suggérons ces charmants villages :</p>
                 
                 <div class="accommodation-grid">
                     <div class="accommodation-item">
@@ -306,5 +308,4 @@
     <!-- Scripts -->
     <script src="assets/js/script.js"></script>
 </body>
-
 </html>

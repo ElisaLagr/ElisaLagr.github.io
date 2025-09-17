@@ -82,91 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
         group.style.transform = 'translateY(20px)';
         group.style.transition = 'all 0.4s ease';
     });
-
-    // Form submission handler
-    rsvpForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const submitBtn = rsvpForm.querySelector('.submit-btn');
-        const originalText = submitBtn.innerHTML;
-        
-        // Show loading state
-        submitBtn.classList.add('loading');
-        submitBtn.innerHTML = '<i class="fas fa-heart"></i> Envoi en cours...';
-        submitBtn.disabled = true;
-
-        // Collect form data
-        const formData = new FormData(rsvpForm);
-        const rsvpData = {};
-        
-        for (let [key, value] of formData.entries()) {
-            rsvpData[key] = value;
-        }
-
-        setTimeout(() => {
-            console.log('RSVP Data:', rsvpData);
-            
-            // Prepare email content - using simple characters instead of emojis
-            const emailSubject = 'RSVP - Mariage Michel & Elisa - 14 Aout 2026';
-            
-            let emailBody = `Bonjour Michel et Elisa,
-
-Voici ma reponse pour votre mariage le 14 aout 2026 :
-
-* Nom et Prenom : ${rsvpData.guestName || 'Non renseigne'}
-* Email : ${rsvpData.guestEmail || 'Non renseigne'}
-* Presence : ${rsvpData.attendance === 'yes' ? 'OUI, je serai present(e) !' : 'Non, je ne pourrai pas etre present(e)'}`;
-
-            if (rsvpData.attendance === 'yes') {
-                emailBody += `
-* Nombre de personnes : ${rsvpData.guestCount || '1'}`;
-                
-                if (rsvpData.songRequest && rsvpData.songRequest.trim()) {
-                    emailBody += `
-* Suggestion de chanson : ${rsvpData.songRequest}`;
-                }
-                
-                if (rsvpData.dietary && rsvpData.dietary.trim()) {
-                    emailBody += `
-* Restrictions alimentaires : ${rsvpData.dietary}`;
-                }
-            }
-
-            if (rsvpData.message && rsvpData.message.trim()) {
-                emailBody += `
-
-Message personnel :
-${rsvpData.message}`;
-            }
-
-            emailBody += `
-
-Avec tout mon amour et mes meilleurs voeux pour votre union !
-
----
-Reponse envoyee depuis votre site de mariage`;
-
-            // Create mailto link with proper encoding
-            const mailtoLink = `mailto:elisa.lagrange@orange.fr?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-            
-            // Open email client
-            window.location.href = mailtoLink;
-            
-            // Show success message
-            showNotification('Votre client de messagerie va s\'ouvrir avec l\'email prepare !', 'success');
-            
-            // Reset form
-            rsvpForm.reset();
-            guestCountGroup.style.display = 'none';
-            dietaryGroup.style.display = 'none';
-            
-            // Reset button
-            submitBtn.classList.remove('loading');
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            
-        }, 2000);
-    });
 });
 
 // ===== Notification System =====
@@ -329,9 +244,6 @@ function validateField(field) {
     if (field.hasAttribute('required') && !value) {
         isValid = false;
         errorMessage = 'Ce champ est obligatoire';
-    } else if (field.type === 'email' && value && !isValidEmail(value)) {
-        isValid = false;
-        errorMessage = 'Veuillez entrer une adresse email valide';
     }
     
     // Apply validation styles
@@ -354,11 +266,6 @@ function validateField(field) {
     }
     
     return isValid;
-}
-
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
 }
 
 // ===== Phone Number Formatting =====
@@ -446,5 +353,129 @@ document.addEventListener('keydown', function(e) {
         
         showNotification('💕 Vous avez trouvé notre secret ! Amour supplémentaire pour vous ! 💕', 'success');
         konamiCode = []; // Reset
+    }
+});
+
+// ===== GOOGLE APPS SCRIPT RSVP INTEGRATION =====
+
+// Configuration Google Apps Script
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwg8R78GNSVd8HfUMjIEbpRUPh24OuosrE6-cyF-4-y8byegvsRTBnJdHHoU2OSnm8vyQ/exec';
+
+// RSVP Form Submission
+document.addEventListener('DOMContentLoaded', function() {
+    const rsvpForm = document.getElementById('rsvpForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const responseMessage = document.getElementById('responseMessage');
+    
+    // Gestion de l'affichage conditionnel des champs
+    const attendanceRadios = document.querySelectorAll('input[name="attendance"]');
+    const guestCountGroup = document.getElementById('guestCountGroup');
+    const dietaryGroup = document.getElementById('dietaryGroup');
+    
+    attendanceRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'yes') {
+                guestCountGroup.style.display = 'flex';
+                dietaryGroup.style.display = 'block';
+            } else {
+                guestCountGroup.style.display = 'none';
+                dietaryGroup.style.display = 'none';
+                // Reset les champs cachés
+                document.getElementById('guestCount').value = '1';
+                document.getElementById('songRequest').value = '';
+                document.getElementById('dietary').value = '';
+            }
+        });
+    });
+    
+    // Soumission du formulaire
+    if (rsvpForm) {
+        rsvpForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Animation bouton loading
+            const originalHTML = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Envoi en cours...</span>';
+            submitBtn.classList.add('loading');
+            
+            // Masquer les anciens messages
+            responseMessage.style.display = 'none';
+            
+            // Collecter les données
+            const formData = {
+                guestName: document.getElementById('guestName').value.trim(),
+                guestEmail: document.getElementById('guestEmail').value.trim(),
+                attendance: document.querySelector('input[name="attendance"]:checked')?.value || '',
+                guestCount: document.querySelector('input[name="attendance"]:checked')?.value === 'yes' ? 
+                           document.getElementById('guestCount').value : '',
+                songRequest: document.getElementById('songRequest').value.trim(),
+                dietary: document.getElementById('dietary').value.trim(),
+                message: document.getElementById('message').value.trim()
+            };
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Succès - Afficher message de confirmation
+                    responseMessage.innerHTML = `
+                        <div class="success-message">
+                            <i class="fas fa-check-circle"></i>
+                            <h4>✨ Parfait !</h4>
+                            <p>Votre réponse a été enregistrée avec succès.<br>Merci beaucoup ! 💕</p>
+                        </div>
+                    `;
+                    responseMessage.className = 'response-message success';
+                    responseMessage.style.display = 'block';
+                    
+                    // Reset du formulaire
+                    rsvpForm.reset();
+                    guestCountGroup.style.display = 'none';
+                    dietaryGroup.style.display = 'none';
+                    
+                    // Faire défiler vers le message
+                    responseMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Masquer le message après 8 secondes
+                    setTimeout(() => {
+                        responseMessage.style.display = 'none';
+                    }, 8000);
+                    
+                } else {
+                    throw new Error(result.message || 'Erreur lors de l\'envoi');
+                }
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+                responseMessage.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h4>❌ Oups !</h4>
+                        <p>Une erreur s'est produite lors de l'envoi.<br>Veuillez réessayer dans quelques instants.</p>
+                    </div>
+                `;
+                responseMessage.className = 'response-message error';
+                responseMessage.style.display = 'block';
+                
+                // Faire défiler vers le message d'erreur
+                responseMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } finally {
+                // Restaurer le bouton
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalHTML;
+                submitBtn.classList.remove('loading');
+            }
+        });
     }
 });
