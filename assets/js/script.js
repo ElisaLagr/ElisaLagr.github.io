@@ -60,24 +60,28 @@ document.addEventListener('DOMContentLoaded', function() {
         radio.addEventListener('change', function() {
             if (this.value === 'yes') {
                 guestCountGroup.style.display = 'block';
+                songGroup.style.display = 'block';
                 dietaryGroup.style.display = 'block';
                 
                 // Add smooth slide-down animation
                 setTimeout(() => {
                     guestCountGroup.style.opacity = '1';
                     guestCountGroup.style.transform = 'translateY(0)';
+                    songGroup.style.opacity = '1';
+                    songGroup.style.transform = 'translateY(0)';
                     dietaryGroup.style.opacity = '1';
                     dietaryGroup.style.transform = 'translateY(0)';
                 }, 50);
             } else {
                 guestCountGroup.style.display = 'none';
+                songGroup.style.display = 'none';
                 dietaryGroup.style.display = 'none';
             }
         });
     });
 
     // Style additional form groups for animation
-    [guestCountGroup, dietaryGroup].forEach(group => {
+    [guestCountGroup, songGroup, dietaryGroup].forEach(group => {
         group.style.opacity = '0';
         group.style.transform = 'translateY(20px)';
         group.style.transition = 'all 0.4s ease';
@@ -371,15 +375,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Gestion de l'affichage conditionnel des champs
     const attendanceRadios = document.querySelectorAll('input[name="attendance"]');
     const guestCountGroup = document.getElementById('guestCountGroup');
+    const songGroup = document.getElementById('songGroup');
     const dietaryGroup = document.getElementById('dietaryGroup');
     
     attendanceRadios.forEach(radio => {
         radio.addEventListener('change', function() {
             if (this.value === 'yes') {
-                guestCountGroup.style.display = 'flex';
+                guestCountGroup.style.display = 'block';
+                songGroup.style.display = 'block';
                 dietaryGroup.style.display = 'block';
             } else {
                 guestCountGroup.style.display = 'none';
+                songGroup.style.display = 'none';
                 dietaryGroup.style.display = 'none';
                 // Reset les champs cachés
                 document.getElementById('guestCount').value = '1';
@@ -442,6 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Reset du formulaire
                     rsvpForm.reset();
                     guestCountGroup.style.display = 'none';
+                    songGroup.style.display = 'none';
                     dietaryGroup.style.display = 'none';
                     
                     // Faire défiler vers le message
