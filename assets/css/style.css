@@ -1459,3 +1459,163 @@ body {
         font-size: 1rem;
     }
 }
+
+/* ===== Dynamic Guest Names Fields ===== */
+#guestNamesContainer {
+    margin-top: 25px;
+    padding: 25px;
+    background: linear-gradient(135deg, rgba(248, 245, 241, 0.3), rgba(255, 255, 255, 0.1));
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(212, 165, 116, 0.2);
+    transition: all 0.4s ease;
+}
+
+#guestNamesContainer h4 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--accent-color);
+    font-family: var(--font-primary);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.guest-name-row {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.4s ease;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 2px solid rgba(212, 165, 116, 0.2);
+}
+
+.guest-name-row:last-child {
+    margin-bottom: 0;
+}
+
+.guest-name-row .form-group label {
+    color: var(--accent-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.guest-name-row .form-group input {
+    border: 1px solid rgba(212, 165, 116, 0.3);
+    transition: all 0.3s ease;
+}
+
+.guest-name-row .form-group input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+}
+
+/* Styles pour les nouveaux champs nom/prénom */
+#guestNamesGroup {
+    background: rgba(244, 194, 194, 0.1);
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid rgba(212, 165, 116, 0.2);
+}
+
+#guestNamesGroup > label {
+    display: block;
+    color: var(--accent-color) !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 10px !important;
+    text-align: center;
+    font-family: var(--font-primary);
+}
+
+.guest-name-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 5px;
+}
+
+.guest-name-fields .form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.guest-name-fields .form-field label {
+    color: var(--accent-color) !important;
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 5px !important;
+    font-family: var(--font-secondary);
+}
+
+.guest-name-fields .form-field input {
+    padding: 12px 14px !important;
+    border: 2px solid rgba(212, 165, 116, 0.3) !important;
+    border-radius: 10px !important;
+    font-size: 1rem !important;
+    font-family: var(--font-secondary) !important;
+    transition: all 0.3s ease !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+.guest-name-fields .form-field input:focus {
+    outline: none !important;
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.15) !important;
+    background: var(--white) !important;
+}
+
+.guest-name-fields .form-field input::placeholder {
+    color: rgba(102, 102, 102, 0.7);
+    font-style: italic;
+}
+
+/* Mobile responsive pour les champs dynamiques */
+@media (max-width: 768px) {
+    #guestNamesContainer {
+        margin: 20px 10px 0;
+        padding: 20px 15px;
+    }
+    
+    #guestNamesContainer h4 {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
+    
+    #guestNamesGroup {
+        padding: 8px;
+        margin: 8px 0;
+    }
+    
+    #guestNamesGroup > label {
+        font-size: 1rem !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .guest-name-row {
+        padding: 8px;
+        margin-bottom: 8px;
+    }
+    
+    .guest-name-row .form-group label {
+        font-size: 0.9rem;
+    }
+    
+    /* Styles mobiles pour les nouveaux champs */
+    .guest-name-fields {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .guest-name-fields .form-field label {
+        font-size: 0.9rem !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .guest-name-fields .form-field input {
+        padding: 10px 12px !important;
+        font-size: 0.95rem !important;
+    }
+}

@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Style additional form groups for animation
-    [guestCountGroup, songGroup, dietaryGroup].forEach(group => {
+    [guestCountGroup, guestNamesGroup, songGroup, dietaryGroup].forEach(group => {
         group.style.opacity = '0';
         group.style.transform = 'translateY(20px)';
         group.style.transition = 'all 0.4s ease';
@@ -375,26 +375,82 @@ document.addEventListener('DOMContentLoaded', function() {
     // Gestion de l'affichage conditionnel des champs
     const attendanceRadios = document.querySelectorAll('input[name="attendance"]');
     const guestCountGroup = document.getElementById('guestCountGroup');
+    const guestNamesGroup = document.getElementById('guestNamesGroup');
+    const guestNamesContainer = document.getElementById('guestNamesContainer');
     const songGroup = document.getElementById('songGroup');
     const dietaryGroup = document.getElementById('dietaryGroup');
+    const guestCountSelect = document.getElementById('guestCount');
     
     attendanceRadios.forEach(radio => {
         radio.addEventListener('change', function() {
             if (this.value === 'yes') {
                 guestCountGroup.style.display = 'block';
+                guestNamesGroup.style.display = 'block';
                 songGroup.style.display = 'block';
                 dietaryGroup.style.display = 'block';
+                
+                // Générer les champs pour 1 personne par défaut
+                generateGuestNameFields(1);
+                
+                // Animation d'apparition
+                setTimeout(() => {
+                    guestCountGroup.style.opacity = '1';
+                    guestCountGroup.style.transform = 'translateY(0)';
+                    guestNamesGroup.style.opacity = '1';
+                    guestNamesGroup.style.transform = 'translateY(0)';
+                    songGroup.style.opacity = '1';
+                    songGroup.style.transform = 'translateY(0)';
+                    dietaryGroup.style.opacity = '1';
+                    dietaryGroup.style.transform = 'translateY(0)';
+                }, 100);
             } else {
                 guestCountGroup.style.display = 'none';
+                guestNamesGroup.style.display = 'none';
                 songGroup.style.display = 'none';
                 dietaryGroup.style.display = 'none';
                 // Reset les champs cachés
-                document.getElementById('guestCount').value = '1';
+                guestCountSelect.value = '1';
                 document.getElementById('songRequest').value = '';
                 document.getElementById('dietary').value = '';
+                guestNamesContainer.innerHTML = '';
             }
         });
     });
+
+    // Gestion du changement du nombre d'invités
+    guestCountSelect.addEventListener('change', function() {
+        const guestCount = parseInt(this.value);
+        generateGuestNameFields(guestCount);
+    });
+
+    // Fonction pour générer les champs nom/prénom dynamiquement
+    function generateGuestNameFields(count) {
+        guestNamesContainer.innerHTML = '';
+        
+        for (let i = 1; i <= count; i++) {
+            const guestDiv = document.createElement('div');
+            guestDiv.className = 'guest-name-row';
+            guestDiv.innerHTML = `
+                <div class="guest-name-fields">
+                    <div class="form-field">
+                        <label for="guestFirstName${i}">Prénom ${i === 1 ? '(vous)' : i}</label>
+                        <input type="text" id="guestFirstName${i}" name="guestFirstName${i}" required placeholder="Prénom">
+                    </div>
+                    <div class="form-field">
+                        <label for="guestLastName${i}">Nom ${i === 1 ? '(vous)' : i}</label>
+                        <input type="text" id="guestLastName${i}" name="guestLastName${i}" required placeholder="Nom de famille">
+                    </div>
+                </div>
+            `;
+            guestNamesContainer.appendChild(guestDiv);
+            
+            // Animation d'apparition avec délai
+            setTimeout(() => {
+                guestDiv.style.opacity = '1';
+                guestDiv.style.transform = 'translateY(0)';
+            }, i * 100);
+        }
+    }
     
     // Soumission du formulaire
     if (rsvpForm) {
@@ -411,12 +467,32 @@ document.addEventListener('DOMContentLoaded', function() {
             responseMessage.style.display = 'none';
             
             // Collecter les données
+            const attendance = document.querySelector('input[name="attendance"]:checked')?.value || '';
+            const guestCount = attendance === 'yes' ? document.getElementById('guestCount').value : '0';
+            
+            // Collecter tous les noms et prénoms
+            const guests = [];
+            if (attendance === 'yes') {
+                const count = parseInt(guestCount);
+                for (let i = 1; i <= count; i++) {
+                    const firstName = document.getElementById(`guestFirstName${i}`)?.value.trim() || '';
+                    const lastName = document.getElementById(`guestLastName${i}`)?.value.trim() || '';
+                    if (firstName || lastName) {
+                        guests.push({
+                            firstName: firstName,
+                            lastName: lastName,
+                            position: i
+                        });
+                    }
+                }
+            }
+
             const formData = {
                 guestName: document.getElementById('guestName').value.trim(),
                 guestEmail: document.getElementById('guestEmail').value.trim(),
-                attendance: document.querySelector('input[name="attendance"]:checked')?.value || '',
-                guestCount: document.querySelector('input[name="attendance"]:checked')?.value === 'yes' ? 
-                           document.getElementById('guestCount').value : '',
+                attendance: attendance,
+                guestCount: guestCount,
+                guests: guests,
                 songRequest: document.getElementById('songRequest').value.trim(),
                 dietary: document.getElementById('dietary').value.trim(),
                 message: document.getElementById('message').value.trim()
@@ -449,8 +525,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Reset du formulaire
                     rsvpForm.reset();
                     guestCountGroup.style.display = 'none';
+                    guestNamesGroup.style.display = 'none';
                     songGroup.style.display = 'none';
                     dietaryGroup.style.display = 'none';
+                    guestNamesContainer.innerHTML = '';
                     
                     // Faire défiler vers le message
                     responseMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
